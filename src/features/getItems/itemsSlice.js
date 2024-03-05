@@ -1,37 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
-import fetchIds from './fetchIds';
+import getItems from './getItems';
 
 const initialState = {
-  allIds: [],
+  itemsData: [],
   isLoading: false,
   hasError: false,
 };
 
 // Конфигурационный объект для слайса
 const options = {
-  name: 'ids',
+  name: 'items',
   initialState,
-  reducers: {},
 
   // Для обработки состояний жизненного цикла промиса
-  extraReducers: builder => {
+  extraReducerds: builder => {
     builder
-      .addCase(fetchIds.pending, state => {
+      .addCase(getItems.pending, state => {
         state.isLoading = true;
         state.hasError = false;
       })
-      .addCase(fetchIds.fulfilled, (state, action) => {
+      .addCase(getItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
-        state.allIds = action.payload;
+        state.itemsData = action.payload;
       })
-      .addCase(fetchIds.rejected, state => {
+      .addCase(getItems.rejected, state => {
         state.isLoading = false;
         state.hasError = true;
       });
   },
 };
 
-export const idsSlice = createSlice(options);
-
-export const selectAllIds = state => state.ids.allIds;
+export const itemsSlice = createSlice(options);

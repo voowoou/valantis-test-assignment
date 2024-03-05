@@ -1,13 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import md5 from 'md5';
-
-// Получаем полную дату по iso, отделяя всё, что связано со временем, и убираем дефисы между числами
-const timeStamp = new Date().toISOString().split('T')[0].replace(/-/g, '');
-const password = 'Valantis';
-const authString = md5(`${password}_${timeStamp}`);
+import authString from '../authString/authStringGenerator';
 
 // thunk для получения id
-const fetchIds = createAsyncThunk('products/fetchIds', async ({ offset, limit }) => {
+const getIds = createAsyncThunk('ids/getIds', async ({ offset, limit }) => {
   const body = {
     action: 'get_ids',
     params: { offset, limit },
@@ -27,10 +22,10 @@ const fetchIds = createAsyncThunk('products/fetchIds', async ({ offset, limit })
       const idsResponse = await response.json();
       return idsResponse.result;
     }
-    throw new Error('Request failed');
+    throw new Error('Ids request failed');
   } catch (error) {
     console.log(error); // Логируем ошибку
   }
 });
 
-export default fetchIds;
+export default getIds;
