@@ -33,7 +33,7 @@ export const RenderProducts = () => {
 
   // Если с запросом getIds всё хорошо, то вызываем getItems
   useEffect(() => {
-    if (ids.length > 0 && !idsIsLoading && !idsHasError) {
+    if (!idsIsLoading && !idsHasError) {
       dispatch(getItems(ids));
     }
   }, [ids, idsIsLoading, idsHasError, dispatch]);
@@ -41,44 +41,55 @@ export const RenderProducts = () => {
 
   //Хэндлеры нажатий на кнопки пагинации
   const handleNext = () => setPage(prev => prev + 1);
-  const handlePrev = () => setPage(prev => prev - 1);
+  const handlePrev = () => {
+    if (page > 1) {
+      setPage(prev => prev - 1); // Если страничка первая, то переместиться назад нельзя
+    }
+  };
 
   // Если промисы имеют состояния pending
   if (idsIsLoading || itemsIsLoading) {
     return <div>Загрузка...</div>;
   }
 
-  // Если промисы разрешились с rejected
-  if (idsHasError || itemsHasError) {
-    return (
-      <div>
-        <div>Возникла ошибка</div>
-        <button onClick={fetchIds}>Повторить запрос</button>
-      </div>
-    );
-  }
+  // // Если промисы разрешились с rejected
+  // if (idsHasError || itemsHasError) {
+  //   return (
+  //     <div>
+  //       <div>Возникла ошибка</div>
+  //       <button onClick={fetchIds}>Повторить запрос</button>
+  //     </div>
+  //   );
+  // }
 
   // Если все запросы прошли хорошо
   return (
     <main>
       <h1>Товары:</h1>
       <div>
-        {items.map(item => (
-          <div key={item.id}>
-            <div>
-              <span>{item.id}</span>
-            </div>
-            <div>
-              <span>{item.price}</span>
-              <span>
-                {item.product}
-                {item.brand && `, ${item.brand}`}
-              </span>
-            </div>
-          </div>
-        ))}
+        {Array.isArray(items) &&
+          items.map(
+            (
+              item, // Проверим, что items массив, а не undefined
+            ) => (
+              <div key={item.id}>
+                <div>
+                  <span>{item.id}</span>
+                </div>
+                <div>
+                  <span>{item.price}</span>
+                  <span>
+                    {item.product}
+                    {item.brand && `, ${item.brand}`}
+                  </span>
+                </div>
+              </div>
+            ),
+          )}
       </div>
-      <button onClick={handlePrev}>Назад</button>
+      <button onClick={handlePrev} disabled={page === 1}>
+        Назад
+      </button>
       <button onClick={handleNext}>Вперёд</button>
     </main>
   );

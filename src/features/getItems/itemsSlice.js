@@ -23,12 +23,15 @@ const options = {
         state.isLoading = false;
         state.hasError = false;
 
-        // Используем преобразование в Map, чтобы удалить дубликаты
-        const itemsMap = new Map();
-        action.payload.forEach(item => {
-          itemsMap.set(item.id, item);
-        });
-        state.itemsData = Array.from(itemsMap.values()); // Преобразуем Map в массив
+        if (Array.isArray(action.payload)) {
+          // Проверим, что передался массив объектов, а не undefined
+          // Используем преобразование в Map, чтобы удалить дубликаты
+          const itemsMap = new Map();
+          action.payload.forEach(item => {
+            itemsMap.set(item.id, item);
+          });
+          state.itemsData = Array.from(itemsMap.values()); // Преобразуем Map в массив
+        }
       })
       .addCase(getItems.rejected, state => {
         state.isLoading = false;
