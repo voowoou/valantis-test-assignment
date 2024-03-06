@@ -30,7 +30,6 @@ export const RenderProducts = () => {
   };
   useEffect(fetchIds, [page, dispatch]); // Запускаем функцию, обрабатывая сайд-эффект
   const ids = useSelector(selectIds); // Получаем id товаров
-  console.log(ids);
 
   // Если с запросом getIds всё хорошо, то вызываем getItems
   useEffect(() => {
@@ -39,7 +38,6 @@ export const RenderProducts = () => {
     }
   }, [ids, idsIsLoading, idsHasError, dispatch]);
   const items = useSelector(selectItems); // Получаем объекты товаров
-  console.log(items);
 
   //Хэндлеры нажатий на кнопки пагинации
   const handleNext = () => setPage(prev => prev + 1);
@@ -73,7 +71,8 @@ export const RenderProducts = () => {
             <div>
               <span>{item.price}</span>
               <span>
-                {item.product}, {item.brand && `, ${item.brand}`}
+                {item.product}
+                {item.brand && `, ${item.brand}`}
               </span>
             </div>
           </div>

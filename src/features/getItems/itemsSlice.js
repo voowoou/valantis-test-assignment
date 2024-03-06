@@ -13,7 +13,7 @@ const options = {
   initialState,
 
   // Для обработки состояний жизненного цикла промиса
-  extraReducerds: builder => {
+  extraReducers: builder => {
     builder
       .addCase(getItems.pending, state => {
         state.isLoading = true;
@@ -22,7 +22,13 @@ const options = {
       .addCase(getItems.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
-        state.itemsData = action.payload;
+
+        // Используем преобразование в Map, чтобы удалить дубликаты
+        const itemsMap = new Map();
+        action.payload.forEach(item => {
+          itemsMap.set(item.id, item);
+        });
+        state.itemsData = Array.from(itemsMap.values()); // Преобразуем Map в массив
       })
       .addCase(getItems.rejected, state => {
         state.isLoading = false;

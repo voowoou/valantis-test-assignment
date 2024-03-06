@@ -22,8 +22,7 @@ const options = {
       .addCase(getIds.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
-        state.itemsIds = [...new Set(action.payload)]; // Set удалит повторы, т.к. не может содержать дубликатов;
-        // Оператор ... обратно преобразует Set в массив
+        state.itemsIds = action.payload;
       })
       .addCase(getIds.rejected, state => {
         state.isLoading = false;
