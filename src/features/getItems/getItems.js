@@ -31,3 +31,8 @@ const getItems = createAsyncThunk('items/getItems', async ids => {
 });
 
 export default getItems;
+
+// Создаем селекторы для компонента RenderProduct.js
+export const selectIds = state => state.ids.itemsIds;
+export const selectIdsIsLoading = state => state.ids.isLoading;
+export const selectIdsHasError = state => state.ids.hasError;

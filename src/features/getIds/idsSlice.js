@@ -22,7 +22,8 @@ const options = {
       .addCase(getIds.fulfilled, (state, action) => {
         state.isLoading = false;
         state.hasError = false;
-        state.itemsIds = action.payload;
+        state.itemsIds = [...new Set(action.payload)]; // Set удалит повторы, т.к. не может содержать дубликатов;
+        // Оператор ... обратно преобразует Set в массив
       })
       .addCase(getIds.rejected, state => {
         state.isLoading = false;
@@ -35,5 +36,5 @@ export const idsSlice = createSlice(options); // Отправим в store.js
 
 // Создаем селекторы для компонента RenderProduct.js
 export const selectIds = state => state.ids.itemsIds;
-export const selectIsLoading = state => state.ids.isLoading;
-export const selectHasError = state => state.ids.hasError;
+export const selectIdsIsLoading = state => state.ids.isLoading;
+export const selectIdsHasError = state => state.ids.hasError;

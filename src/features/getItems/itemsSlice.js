@@ -32,3 +32,8 @@ const options = {
 };
 
 export const itemsSlice = createSlice(options);
+
+// Создаем селекторы для компонента RenderProduct.js
+export const selectItems = state => state.items.itemsData;
+export const selectItemsIsLoading = state => state.items.isLoading;
+export const selectItemsHasError = state => state.items.hasError;
