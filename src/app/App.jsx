@@ -1,4 +1,4 @@
-import { RenderProducts } from '../features/renderProducts/RenderProducts';
+import { RenderProducts } from '../components/RenderProducts';
 
 function App() {
   return (
