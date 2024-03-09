@@ -30,10 +30,6 @@ const RenderProducts = () => {
   const idsHasError = useSelector(selectIdsHasError); // Завершился ли запрос с ошибкой
   console.log('ID: ', ids, '   Ошибки: ', idsHasError);
 
-  const retryFetch = () => {
-    fetchIds();
-  };
-
   // Если с запросом getIds всё хорошо, то вызываем getItems
   useEffect(() => {
     if (Array.isArray(ids) && ids.length > 0) {
@@ -48,11 +44,12 @@ const RenderProducts = () => {
   const itemsHasError = useSelector(selectItemsHasError); // Завершился ли запрос с ошибкой
   console.log('Товары: ', items, '   Ошибки: ', itemsHasError);
 
+  // Если есть ошибки
   useEffect(() => {
     if (idsHasError || itemsHasError) {
-      retryFetch();
+      dispatch(getIds());
     }
-  }, [idsHasError, itemsHasError, retryFetch]);
+  }, [idsHasError, itemsHasError, dispatch]);
 
   // Если промисы имеют состояния pending
   if (idsIsLoading || itemsIsLoading) {
