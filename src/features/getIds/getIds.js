@@ -2,12 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import authString from '../authString/authStringGenerator';
 
 // thunk для получения id
-const getIds = createAsyncThunk('ids/getIds', async ({ offset, limit }) => {
-  const body = {
-    action: 'get_ids',
-    params: { offset, limit },
-  };
-
+const getIds = createAsyncThunk('ids/getIds', async () => {
   // Используем паттерн для запросов c fetchAPI
   try {
     const response = await fetch('http://api.valantis.store:40000/', {
@@ -16,7 +11,7 @@ const getIds = createAsyncThunk('ids/getIds', async ({ offset, limit }) => {
         'Content-Type': 'application/json',
         'X-Auth': authString,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ action: 'get_ids' }),
     });
     if (response.ok) {
       const idsResponse = await response.json();

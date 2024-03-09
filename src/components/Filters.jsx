@@ -8,8 +8,7 @@ const Filters = () => {
     },
   });
 
-  const searchText = watch('search');
-  console.log(searchText);
+  const searchText = watch('search'); // "Вотчер" для записи в переменную набранного текста
 
   return (
     <form>

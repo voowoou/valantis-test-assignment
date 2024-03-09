@@ -23,6 +23,7 @@ const options = {
         state.isLoading = false;
         state.hasError = false;
         state.itemsIds = action.payload;
+        console.log('ID: ', initialState);
       })
       .addCase(getIds.rejected, state => {
         state.isLoading = false;

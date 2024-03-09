@@ -1,4 +1,4 @@
-export const Pagination = ({ page, setPage }) => {
+const Pagination = ({ page, setPage }) => {
   //Хэндлеры нажатий на кнопки пагинации
   const handleNext = () => setPage(prev => prev + 1);
   const handlePrev = () => {
@@ -16,3 +16,5 @@ export const Pagination = ({ page, setPage }) => {
     </div>
   );
 };
+
+export default Pagination;

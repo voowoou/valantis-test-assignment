@@ -7,41 +7,55 @@ import {
   selectIdsIsLoading,
   selectIdsHasError,
 } from '../features/getIds/idsSlice';
-import { selectItems, selectItemsIsLoading } from '../features/getItems/itemsSlice';
-import { Pagination } from '../features/pagination/Pagination';
+import {
+  selectItems,
+  selectItemsIsLoading,
+  selectItemsHasError,
+} from '../features/getItems/itemsSlice';
+import Pagination from '../features/pagination/Pagination';
 
-export const RenderProducts = () => {
+const RenderProducts = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const itemsPerPage = 50;
-
-  const idsIsLoading = useSelector(selectIdsIsLoading);
-  const idsHasError = useSelector(selectIdsHasError);
-  const itemsIsLoading = useSelector(selectItemsIsLoading);
+  const offset = (page - 1) * itemsPerPage;
 
   // Формируем функцию для диспетчеризации getIds
   const fetchIds = () => {
-    const getIdsArg = {
-      offset: (page - 1) * itemsPerPage,
-      limit: itemsPerPage,
-    };
-
-    dispatch(getIds(getIdsArg));
+    dispatch(getIds());
   };
   useEffect(fetchIds, [page, dispatch]); // Запускаем функцию, обрабатывая сайд-эффект
   const ids = useSelector(selectIds); // Получаем id товаров
+  const idsIsLoading = useSelector(selectIdsIsLoading); // Загружаются ли id
+  const idsHasError = useSelector(selectIdsHasError); // Завершился ли запрос с ошибкой
+  console.log('ID: ', ids, '   Ошибки: ', idsHasError);
+
+  const retryFetch = () => {
+    fetchIds();
+  };
 
   // Если с запросом getIds всё хорошо, то вызываем getItems
   useEffect(() => {
-    if (Array.isArray(ids) && !idsIsLoading && !idsHasError) {
-      dispatch(getItems(ids));
+    if (Array.isArray(ids) && ids.length > 0) {
+      // Вырезаем кусок массива ids с учетом offset и itemsPerPage
+      const slicedIds = ids.slice(offset, offset + itemsPerPage);
+      dispatch(getItems(slicedIds));
     }
-  }, [ids, idsIsLoading, idsHasError, dispatch]);
+  }, [ids, dispatch, offset]);
+
   const items = useSelector(selectItems); // Получаем объекты товаров
+  const itemsIsLoading = useSelector(selectItemsIsLoading); // Загружаются ли items
+  const itemsHasError = useSelector(selectItemsHasError); // Завершился ли запрос с ошибкой
+  console.log('Товары: ', items, '   Ошибки: ', itemsHasError);
+
+  useEffect(() => {
+    if (idsHasError || itemsHasError) {
+      retryFetch();
+    }
+  }, [idsHasError, itemsHasError, retryFetch]);
 
   // Если промисы имеют состояния pending
   if (idsIsLoading || itemsIsLoading) {
-    console.log('ids: ' + idsIsLoading + '    items: ' + itemsIsLoading);
     return <div>Загрузка...</div>;
   }
 
@@ -69,3 +83,5 @@ export const RenderProducts = () => {
     </main>
   );
 };
+
+export default RenderProducts;

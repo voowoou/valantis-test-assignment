@@ -31,6 +31,8 @@ const options = {
             itemsMap.set(item.id, item);
           });
           state.itemsData = Array.from(itemsMap.values()); // Преобразуем Map в массив
+
+          console.log('Items: ', initialState);
         }
       })
       .addCase(getItems.rejected, state => {
