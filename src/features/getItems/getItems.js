@@ -12,7 +12,7 @@ const getItems = createAsyncThunk('items/getItems', async ids => {
 
   // Используем паттерн для запросов c fetchAPI
   try {
-    const response = await fetch('http://api.valantis.store:40000/', {
+    const response = await fetch('https://api.valantis.store:40000/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

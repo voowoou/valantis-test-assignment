@@ -29,7 +29,6 @@ const RenderProducts = () => {
   const ids = useSelector(selectIds); // Получаем id товаров
   const idsIsLoading = useSelector(selectIdsIsLoading); // Загружаются ли id
   const idsHasError = useSelector(selectIdsHasError); // Завершился ли запрос с ошибкой
-  console.log('ID: ', ids, '   Ошибки: ', idsHasError);
 
   // Если с запросом getIds всё хорошо, то вызываем getItems
   useEffect(() => {
@@ -43,7 +42,6 @@ const RenderProducts = () => {
   const items = useSelector(selectItems); // Получаем объекты товаров
   const itemsIsLoading = useSelector(selectItemsIsLoading); // Загружаются ли items
   const itemsHasError = useSelector(selectItemsHasError); // Завершился ли запрос с ошибкой
-  console.log('Товары: ', items, '   Ошибки: ', itemsHasError);
 
   // Если есть ошибки
   useEffect(() => {
