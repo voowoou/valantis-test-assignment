@@ -13,6 +13,7 @@ import {
   selectItemsHasError,
 } from '../features/getItems/itemsSlice';
 import Pagination from '../features/pagination/Pagination';
+import './RenderProducts.sass';
 
 const RenderProducts = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const RenderProducts = () => {
 
   // Если промисы имеют состояния pending
   if (idsIsLoading || itemsIsLoading) {
-    return <div>Загрузка...</div>;
+    return <div className="loading">Загрузка...</div>;
   }
 
   // Если все запросы прошли хорошо
@@ -63,11 +64,11 @@ const RenderProducts = () => {
         {Array.isArray(items) && // Проверим, что items не undefined
           items.map(item => (
             <div key={item.id} className="productCard">
-              <div>
+              <div className="idBackground">
                 <span className="productId">{item.id}</span>
               </div>
               <div className="productInfo">
-                <span className="productPrice">{item.price}</span>
+                <span className="productPrice">{item.price}р</span>
                 <span className="productName">
                   {item.product}
                   {item.brand && `, ${item.brand}`}

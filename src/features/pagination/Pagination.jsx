@@ -1,3 +1,5 @@
+import './Pagination.sass';
+
 const Pagination = ({ page, setPage }) => {
   //Хэндлеры нажатий на кнопки пагинации
   const handleNext = () => setPage(prev => prev + 1);
@@ -8,11 +10,13 @@ const Pagination = ({ page, setPage }) => {
   };
 
   return (
-    <div>
-      <button onClick={handlePrev} disabled={page === 1}>
+    <div className="buttonsContainer">
+      <button className="button" onClick={handlePrev} disabled={page === 1}>
         Назад
       </button>
-      <button onClick={handleNext}>Вперёд</button>
+      <button className="button" onClick={handleNext}>
+        Вперёд
+      </button>
     </div>
   );
 };

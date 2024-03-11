@@ -1,5 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { useState } from 'react';
+import './Filters.sass';
 
 const Filters = () => {
   const { control, watch } = useForm({
@@ -21,11 +22,18 @@ const Filters = () => {
         control={control}
         render={(
           { field }, // field содержит свойства: value, name и др., а также связывает input с RHF-формой
-        ) => <input type="search" placeholder="золотое кольцо" {...field} />}
+        ) => (
+          <input
+            className="searchBar"
+            type="text"
+            placeholder="золотое кольцо"
+            {...field}
+          />
+        )}
       />
-      <div>
+      <div className="filtersContainer">
         <div
-          className="brand"
+          className="filter"
           onMouseEnter={() => setIsBrandMenuVisible(true)}
           onMouseLeave={() => setIsBrandMenuVisible(false)}
         >
@@ -33,7 +41,7 @@ const Filters = () => {
           <span className="filterName">Бренд</span>
         </div>
         <div
-          className="price"
+          className="filter"
           onMouseEnter={() => setIsPriceMenuVisible(true)}
           onMouseLeave={() => setIsPriceMenuVisible(false)}
         >
@@ -47,7 +55,7 @@ const Filters = () => {
         </div>
       )}
       {isPriceMenuVisible && (
-        <div className="brandMenu">
+        <div className="priceMenu">
           Здесь должен быть фильтр по ценам товаров из магазина
         </div>
       )}
