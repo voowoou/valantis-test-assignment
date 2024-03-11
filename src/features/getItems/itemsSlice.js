@@ -18,6 +18,7 @@ const options = {
       .addCase(getItems.pending, state => {
         state.isLoading = true;
         state.hasError = false;
+        state.itemsData = [];
       })
       .addCase(getItems.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -38,6 +39,7 @@ const options = {
       .addCase(getItems.rejected, state => {
         state.isLoading = false;
         state.hasError = true;
+        state.itemsData = [];
       });
   },
 };
